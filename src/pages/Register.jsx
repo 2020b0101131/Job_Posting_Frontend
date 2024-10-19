@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Button, TextField, Grid, Typography, Link, Box } from '@mui/material';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
@@ -11,7 +11,7 @@ import InputAdornment from '@mui/material/InputAdornment';
 import '@fontsource/dm-sans'; 
 import { registerUser } from '../services/service'; 
 import { useNavigate } from 'react-router-dom';
-
+import CircularProgress from '@mui/material/CircularProgress';
 
 const validationSchema = Yup.object({
   name: Yup.string().required('Name is required'),
@@ -27,6 +27,7 @@ const validationSchema = Yup.object({
 
 const RegisterForm = () => {
   const navigate = useNavigate();
+  const [flag,setFlag]=useState(false); 
   return (
     <>
       <div style={{width:"25rem",marginTop:"13rem",marginLeft:"5rem",marginRight:"16rem"}}>
@@ -45,7 +46,7 @@ const RegisterForm = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
-         
+          setFlag(true);
           const userData = {
             name: values.name,
             phoneNo: values.phoneNumber, 
@@ -59,11 +60,11 @@ const RegisterForm = () => {
             console.log('Registration successful:', result);
             const { token, message,email,name } = result;
             if (message === "OTP sent via email! Please verify to complete registration.") {
-          
+              setFlag(false);
               localStorage.setItem('token', token);
               localStorage.setItem('companyEmail', email);
               localStorage.setItem('name', name);
-      
+              
               navigate('/verify');
             }else{
               alert('Registration failed. Please try again.');
@@ -75,7 +76,7 @@ const RegisterForm = () => {
         }}
       >
         {({ values, errors, touched, handleChange, handleSubmit }) => (
-          <Form style={{marginTop:"2rem"}} onSubmit={handleSubmit}>
+          <Form style={{marginTop:"0.5rem"}} onSubmit={handleSubmit}>
             <Box
               sx={{
                 border: '1px solid lightgray',
@@ -253,8 +254,10 @@ const RegisterForm = () => {
                     backgroundColor: '#0046CC',
                   },
                 }}
+                
               >
-                Proceed
+                {flag===true?<CircularProgress size={20} sx={{color:"white",mr:2}}/>:null}
+                {flag===true?"Proceeding...":"Proceed"}
               </Button>
             </Box>
           </Form>

@@ -155,6 +155,7 @@ const Verification = () => {
               <Grid container alignItems="center" sx={{ marginBottom: "15px" }}>
                 <Grid item xs>
                   <TextField
+                  disabled
                     InputProps={{
                       startAdornment: (
                         <InputAdornment position="start">
@@ -178,6 +179,7 @@ const Verification = () => {
               </Grid>
 
               <Button
+              disabled
                 size="small"
                 fullWidth
                 variant="contained"

@@ -47,7 +47,7 @@ export const postJob = async (jobData) => {
   try {
     const response = await api.post('api/jobs/', jobData,{
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     }); 
     return response.data;
@@ -62,7 +62,7 @@ export const sendEmail = async (id) => {
   try {
     const response = await api.post(`api/emails/${id}/sendEmails`,null,{
       headers: {
-        Authorization: `Bearer ${token}`,
+        Authorization: `Bearer ${localStorage.getItem('token')}`,
       },
     });
     return response.data;

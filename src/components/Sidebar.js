@@ -1,6 +1,10 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
 import HomeIcon from '@mui/icons-material/Home';
+
 const Sidebar = () => {
+  const navigate = useNavigate();
+
   const sidebarStyle = {
     width: '60px',
     height: '100%',
@@ -16,10 +20,14 @@ const Sidebar = () => {
     color: '#6c757d',
   };
 
+  const handleHomeClick = () => {
+    navigate('/create-interview'); 
+  };
+
   return (
     <div style={sidebarStyle}>
-      <span style={iconStyle} role="img" aria-label="home">
-        <HomeIcon style={{ fontSize: '30px', color: '#4A5568',marginBottom:"25rem" }} />
+      <span style={iconStyle} role="img" aria-label="home" onClick={handleHomeClick}>
+        <HomeIcon style={{ fontSize: '30px', color: '#4A5568', marginBottom: '25rem', cursor: 'pointer' }} />
       </span>
     </div>
   );
