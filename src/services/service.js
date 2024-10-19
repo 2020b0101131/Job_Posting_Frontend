@@ -1,12 +1,13 @@
 import axios from 'axios';
 
-// Create an instance of axios with the base URL from the environment variable
+
 const api = axios.create({
   baseURL: process.env.REACT_APP_API_URL,
 });
 
 const token = localStorage.getItem('token');
-// Service to register a user
+
+
 export const registerUser = async (userData) => {
   try {
     const response = await api.post('api/users/register', userData);
@@ -16,7 +17,7 @@ export const registerUser = async (userData) => {
   }
 };
 
-// Service to verify email
+
 export const verifyEmail = async (verificationData) => {
   try {
     const response = await api.post('api/users/verify-email', verificationData,{
@@ -30,7 +31,7 @@ export const verifyEmail = async (verificationData) => {
   }
 };
 
-// Service to log in a user
+
 export const loginUser = async (credentials) => {
   try {
     const response = await api.post('/users/login', credentials);
@@ -41,7 +42,7 @@ export const loginUser = async (credentials) => {
 };
 
 
-// Service to post a job
+
 export const postJob = async (jobData) => {
   try {
     const response = await api.post('api/jobs/', jobData,{
@@ -56,7 +57,7 @@ export const postJob = async (jobData) => {
 };
 
 
-// Service to send emails
+
 export const sendEmail = async (id) => {
   try {
     const response = await api.post(`api/emails/${id}/sendEmails`,null,{

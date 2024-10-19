@@ -5,7 +5,7 @@ const ProfileDropdown = () => {
   return (
     <Container>
       <Avatar />
-      <Name>Your Name</Name>
+      <Name>{localStorage.getItem('name')}</Name>
       <DropdownIcon>▼</DropdownIcon>
     </Container>
   );
@@ -13,7 +13,7 @@ const ProfileDropdown = () => {
 
 export default ProfileDropdown;
 
-// Styled Components
+
 const Container = styled.div`
   display: flex;
   align-items: center;

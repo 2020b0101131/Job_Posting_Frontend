@@ -9,7 +9,7 @@ import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
 import { postJob,sendEmail } from '../services/service'; // Import the API
 
-// Validation Schema with Yup
+
 const validationSchema = Yup.object({
   jobTitle: Yup.string().required('Job Title is required'),
   jobDescription: Yup.string().required('Job Description is required'),
@@ -65,7 +65,7 @@ const JobForm = () => {
         <Form onSubmit={handleSubmit}>
           <Grid container spacing={3} style={{ maxWidth: 800, margin: '0 auto', marginLeft: '4rem', marginTop: '2rem' }}>
 
-            {/* Job Title */}
+         
             <Grid item xs={12} sx={{ display: 'flex' }}>
               <label style={{ marginLeft: '5.6rem', width: '8.9rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Job Title</label>
               <TextField
@@ -82,7 +82,7 @@ const JobForm = () => {
               />
             </Grid>
 
-            {/* Job Description */}
+           
             <Grid item xs={12} sx={{ display: 'flex' }}>
               <label style={{ marginLeft: '2rem', width: '13.8rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Job Description</label>
               <TextField
@@ -100,7 +100,7 @@ const JobForm = () => {
               />
             </Grid>
 
-            {/* Experience Level */}
+        
             <Grid item xs={12} sx={{ display: 'flex' }}>
               <label style={{ marginLeft: '2rem', width: '13.8rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Experience Level</label>
               <FormControl size='small' fullWidth error={touched.experienceLevel && Boolean(errors.experienceLevel)}>
@@ -121,7 +121,7 @@ const JobForm = () => {
               </FormControl>
             </Grid>
 
-            {/* Add Candidate */}
+           
             <Grid item xs={12} sx={{ display: 'flex' }}>
               <label style={{ marginLeft: '2.9rem', width: '12.6rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Add Candidate</label>
               <TextField
@@ -138,7 +138,7 @@ const JobForm = () => {
               />
             </Grid>
 
-            {/* End Date */}
+         
             <Grid item xs={12} sx={{ display: 'flex', marginTop: '-0.4rem' }}>
               <label style={{ marginLeft: '5.6rem', width: '10rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '1rem', marginRight: '1rem' }}>End Date</label>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
@@ -163,7 +163,7 @@ const JobForm = () => {
               </LocalizationProvider>
             </Grid>
 
-            {/* Send Button */}
+        
             <Grid item xs={12} style={{ textAlign: 'right' }}>
               <Button type="submit" variant="contained" color="primary" style={{ width: '100px' }}>
                 Send

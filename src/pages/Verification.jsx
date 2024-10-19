@@ -10,7 +10,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { useNavigate } from "react-router-dom";
 import { verifyEmail } from "../services/service"; 
 
-// Validation Schema using Yup
+
 const validationSchema = Yup.object({
   // companyEmail: Yup.string()
   //   .email("Invalid email format")
@@ -92,7 +92,7 @@ const Verification = () => {
                 Please verify your Email OTP below
               </Typography>
 
-              {/* Email OTP Field */}
+            
               <Grid container alignItems="center" sx={{ marginBottom: "15px" }}>
                 <Grid item xs>
                   <TextField

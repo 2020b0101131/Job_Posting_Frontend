@@ -45,10 +45,10 @@ const RegisterForm = () => {
         }}
         validationSchema={validationSchema}
         onSubmit={async (values) => {
-          // Adjust the payload to match your API structure
+         
           const userData = {
             name: values.name,
-            phoneNo: values.phoneNumber, // Match the API's expected field name
+            phoneNo: values.phoneNumber, 
             companyName: values.companyName,
             companyEmail: values.companyEmail,
             employeeSize: values.employeeSize,
@@ -57,11 +57,12 @@ const RegisterForm = () => {
           try {
             const result = await registerUser(userData);
             console.log('Registration successful:', result);
-            const { token, message,email } = result;
+            const { token, message,email,name } = result;
             if (message === "OTP sent via email! Please verify to complete registration.") {
           
               localStorage.setItem('token', token);
               localStorage.setItem('companyEmail', email);
+              localStorage.setItem('name', name);
       
               navigate('/verify');
             }else{
@@ -93,7 +94,7 @@ const RegisterForm = () => {
                 Lorem Ipsum is simply dummy text
               </Typography>
 
-              {/* Name Field */}
+          
               <Grid container alignItems="center" sx={{ marginBottom: '15px' }}>
                 <Grid item xs>
                   <TextField
@@ -118,7 +119,7 @@ const RegisterForm = () => {
                 </Grid>
               </Grid>
 
-              {/* Phone Number Field */}
+            
               <Grid container alignItems="center" sx={{ marginBottom: '15px' }}>
                 <Grid item xs>
                   <TextField
@@ -143,7 +144,7 @@ const RegisterForm = () => {
                 </Grid>
               </Grid>
 
-              {/* Company Name Field */}
+        
               <Grid container alignItems="center" sx={{ marginBottom: '15px' }}>
                 <Grid item xs>
                   <TextField
@@ -168,7 +169,7 @@ const RegisterForm = () => {
                 </Grid>
               </Grid>
 
-              {/* Company Email Field */}
+            
               <Grid container alignItems="center" sx={{ marginBottom: '15px' }}>
                 <Grid item xs>
                   <TextField
@@ -193,7 +194,7 @@ const RegisterForm = () => {
                 </Grid>
               </Grid>
 
-              {/* Employee Size Field */}
+         
               <Grid container alignItems="center" sx={{ marginBottom: '15px' }}>
                 <Grid item xs>
                   <TextField
@@ -218,7 +219,7 @@ const RegisterForm = () => {
                 </Grid>
               </Grid>
 
-              {/* Terms and Conditions */}
+             
               <Typography
                 variant="body2"
                 sx={{
@@ -235,7 +236,7 @@ const RegisterForm = () => {
                 <b> By clicking on proceed you will accept our <Link style={{textDecoration:'none'}} href="#">Terms <span style={{color:"#A0A0A0"}}>&</span> Conditions</Link></b>
               </Typography>
 
-              {/* Submit Button */}
+            
               <Button
                 size='small'
                 type="submit"
