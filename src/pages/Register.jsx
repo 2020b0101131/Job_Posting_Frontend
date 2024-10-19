@@ -82,7 +82,8 @@ const RegisterForm = () => {
                 size='small'
                 sx={{backgroundColor: "#F4F4F4"}}
                   fullWidth
-                  label="Name"
+                  // label="Name"
+                  placeholder='Name'
                   name="name"
                   variant="outlined"
                   value={values.name}
@@ -109,7 +110,8 @@ const RegisterForm = () => {
                 size='small'
                 sx={{backgroundColor: "#F4F4F4"}}
                   fullWidth
-                  label="Phone no."
+                  // label="Phone no."
+                  placeholder='Phone no.'
                   name="phoneNumber"
                   variant="outlined"
                   value={values.phoneNumber}
@@ -136,8 +138,9 @@ const RegisterForm = () => {
                 size='small'
                 sx={{backgroundColor: "#F4F4F4"}}
                   fullWidth
-                  label="Company Name"
+                  // label="Company Name"
                   name="companyName"
+                  placeholder='Company Name'
                   variant="outlined"
                   value={values.companyName}
                   onChange={handleChange}
@@ -163,7 +166,8 @@ const RegisterForm = () => {
                 size='small'
                 sx={{backgroundColor: "#F4F4F4"}}
                   fullWidth
-                  label="Company Email"
+                  // label="Company Email"
+                  placeholder='Company Email'
                   name="companyEmail"
                   variant="outlined"
                   value={values.companyEmail}
@@ -190,7 +194,8 @@ const RegisterForm = () => {
                 size='small'
                 sx={{backgroundColor: "#F4F4F4"}}
                   fullWidth
-                  label="Employee Size"
+                  // label="Employee Size"
+                  placeholder='Employee Size'
                   name="employeeSize"
                   variant="outlined"
                   value={values.employeeSize}

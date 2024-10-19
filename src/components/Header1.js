@@ -1,9 +1,8 @@
 import React from 'react';
 import logo from '../images/clogo.png';
-import ProfileDropdown from './ProfileDropDown';
 import '@fontsource/dm-sans'; 
 
-const Header = () => {
+const Header1 = () => {
   const headerStyle = {
     display: 'flex',
     justifyContent: 'space-between',
@@ -35,10 +34,10 @@ const Header = () => {
   <div style={{ fontWeight: "bold", fontSize: "17px", color: "#576474", fontFamily: "'DM Sans', sans-serif" ,marginRight:"30px"}}>
   Contact
 </div>
-    <span style={{marginRight:"14px"}}><ProfileDropdown/></span>
+ 
   </div>
 </header>
   );
 }
 
-export default Header;
+export default Header1;
