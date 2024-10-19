@@ -1,71 +1,65 @@
-import React from "react";
-import { Button, TextField, Grid, Typography, Link, Box } from "@mui/material";
+import React, { useState } from "react";
+import { Button, TextField, Grid, Typography, Box } from "@mui/material";
 import { Formik, Form } from "formik";
 import * as Yup from "yup";
-import PersonIcon from "@mui/icons-material/Person";
 import PhoneIcon from "@mui/icons-material/Phone";
-import BusinessIcon from "@mui/icons-material/Business";
 import EmailIcon from "@mui/icons-material/Email";
-import GroupIcon from "@mui/icons-material/Group";
+import CheckCircleIcon from "@mui/icons-material/CheckCircle";
+import CancelIcon from "@mui/icons-material/Cancel";
 import InputAdornment from "@mui/material/InputAdornment";
-import "@fontsource/dm-sans";
+import { useNavigate } from "react-router-dom";
+import { verifyEmail } from "../services/service"; 
+
 // Validation Schema using Yup
 const validationSchema = Yup.object({
-  name: Yup.string().required("Name is required"),
-  phoneNumber: Yup.string()
-    .matches(/^[0-9]+$/, "Must be only digits")
-    .min(10, "Must be exactly 10 digits")
-    .max(10, "Must be exactly 10 digits")
-    .required("Phone number is required"),
-  companyName: Yup.string().required("Company name is required"),
-  companyEmail: Yup.string()
-    .email("Invalid email format")
-    .required("Company email is required"),
-  employeeSize: Yup.string().required("Employee size is required"),
+  // companyEmail: Yup.string()
+  //   .email("Invalid email format")
+  //   .required("Email OTP is required"),
+  // phoneNumber: Yup.string() // Kept for later use
+  //   .matches(/^[0-9]+$/, "Must be only digits")
+  //   .min(6, "Must be exactly 6 digits")
+  //   .max(6, "Must be exactly 6 digits"),
 });
 
 const Verification = () => {
+  const navigate = useNavigate();
+  const [verificationStatus, setVerificationStatus] = useState(null);
+ 
+
+  const handleVerification = async (values) => {
+    try {
+      const payload = {
+        code: values.companyEmail, 
+        email: localStorage.getItem('companyEmail'),
+      };
+
+      const response = await verifyEmail(payload);
+
+      if (response.message === "Email verified successfully!") {
+        setVerificationStatus("success");
+        navigate("/job-posting"); 
+      } else {
+        setVerificationStatus("failure");
+        alert(response.message || "Verification failed");
+      }
+    } catch (error) {
+      setVerificationStatus("failure");
+      console.error("Verification failed", error);
+    }
+  };
+
   return (
     <>
-      <div
-        style={{
-          width: "25rem",
-          marginTop: "11.5rem",
-          marginRight: "16rem",
-        }}
-      >
-        <p
-          style={{
-            fontFamily: "'DM Sans', sans-serif",
-            fontSize: "14px",
-            color: "#292929",
-            textAlign: "justify",
-            fontWeight: 500,
-          }}
-        >
-          Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum
-          voluptatibus veniam tempore hic itaque, ab blanditiis! Dignissimos,
-          repudiandae voluptas aut voluptate voluptatibus blanditiis a quia
-          nihil aliquam suscipit nulla sint!
-        </p>
-      </div>
-
       <Formik
         initialValues={{
-          name: "",
-          phoneNumber: "",
-          companyName: "",
           companyEmail: "",
-          employeeSize: "",
+          phoneNumber: "",
         }}
         validationSchema={validationSchema}
-        onSubmit={(values) => {
-          console.log("Form Data", values);
-          // Handle form submission logic here
-        }}
+        onSubmit={handleVerification}
       >
         {({ values, errors, touched, handleChange, handleSubmit }) => (
-          <Form style={{ marginTop: "3.8rem" }} onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit} style={{ marginTop: "3.8rem" }}>
             <Box
               sx={{
                 border: "1px solid lightgray",
@@ -75,7 +69,6 @@ const Verification = () => {
                 margin: "0 auto",
                 boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                 height: "18.5rem",
-                //   marginLeft:"20rem",
               }}
             >
               <Typography
@@ -84,7 +77,6 @@ const Verification = () => {
                   textAlign: "center",
                   marginBottom: "10px",
                   fontWeight: 600,
-               
                 }}
               >
                 Sign Up
@@ -97,9 +89,10 @@ const Verification = () => {
                   color: "#A0A0A0",
                 }}
               >
-                Lorem Ipsum is simply dummy text
+                Please verify your Email OTP below
               </Typography>
-              {/* Company Email Field */}
+
+              {/* Email OTP Field */}
               <Grid container alignItems="center" sx={{ marginBottom: "15px" }}>
                 <Grid item xs>
                   <TextField
@@ -109,21 +102,35 @@ const Verification = () => {
                           <EmailIcon />
                         </InputAdornment>
                       ),
+                      endAdornment: verificationStatus && (
+                        <InputAdornment position="end">
+                          {verificationStatus === "success" ? (
+                            <CheckCircleIcon
+                              sx={{ color: "green" }}
+                            />
+                          ) : (
+                            <CancelIcon sx={{ color: "red" }} />
+                          )}
+                        </InputAdornment>
+                      ),
                     }}
                     size="small"
                     sx={{ backgroundColor: "#F4F4F4" }}
                     fullWidth
                     label="Email OTP"
-                    placeholder="Email OTP"
+                    placeholder="Enter your Email OTP"
                     name="companyEmail"
                     variant="outlined"
                     value={values.companyEmail}
                     onChange={handleChange}
-                    error={touched.companyEmail && Boolean(errors.companyEmail)}
+                    error={
+                      touched.companyEmail && Boolean(errors.companyEmail)
+                    }
                     helperText={touched.companyEmail && errors.companyEmail}
                   />
                 </Grid>
               </Grid>
+
               <Button
                 size="small"
                 type="submit"
@@ -134,17 +141,17 @@ const Verification = () => {
                   fontSize: "14px",
                   fontWeight: "bold",
                   textTransform: "none",
-                  marginBottom:"1rem",
+                  marginBottom: "1rem",
                   backgroundColor: "#0057FF",
                   "&:hover": {
                     backgroundColor: "#0046CC",
                   },
                 }}
               >
-                Verify
+                Verify Email
               </Button>
 
-              {/* Phone Number Field */}
+              {/* Phone OTP Field - kept but not functional */}
               <Grid container alignItems="center" sx={{ marginBottom: "15px" }}>
                 <Grid item xs>
                   <TextField
@@ -159,7 +166,7 @@ const Verification = () => {
                     sx={{ backgroundColor: "#F4F4F4" }}
                     fullWidth
                     label="Mobile OTP"
-                    placeholder="Mobile OTP"
+                    placeholder="Enter Mobile OTP"
                     name="phoneNumber"
                     variant="outlined"
                     value={values.phoneNumber}
@@ -170,10 +177,8 @@ const Verification = () => {
                 </Grid>
               </Grid>
 
-             
               <Button
                 size="small"
-                type="submit"
                 fullWidth
                 variant="contained"
                 color="primary"
@@ -187,7 +192,7 @@ const Verification = () => {
                   },
                 }}
               >
-                Verify
+                Verify Phone (Coming Soon)
               </Button>
             </Box>
           </Form>

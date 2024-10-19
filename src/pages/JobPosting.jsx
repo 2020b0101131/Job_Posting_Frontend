@@ -1,12 +1,13 @@
 import React from 'react';
 import { Button, TextField, Grid, MenuItem, Select, InputLabel, FormControl } from '@mui/material';
-import '@fontsource/dm-sans'; 
+import '@fontsource/dm-sans';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Formik, Form, Field } from 'formik';
 import * as Yup from 'yup';
+import { postJob,sendEmail } from '../services/service'; // Import the API
 
 // Validation Schema with Yup
 const validationSchema = Yup.object({
@@ -28,18 +29,45 @@ const JobForm = () => {
         endDate: null,
       }}
       validationSchema={validationSchema}
-      onSubmit={(values) => {
-        console.log('Form Values:', values);
-        // Handle form submission
+      onSubmit={async (values, { resetForm }) => {
+        try {
+          const payload = {
+            title: values.jobTitle, 
+            description: values.jobDescription, 
+            experienceLevel: values.experienceLevel, 
+            candidates: Array.isArray(values.candidateEmail) && values.candidateEmail.length > 0
+            ? values.candidateEmail.map(email => ({ email }))
+            : [{ email: values.candidateEmail }],
+            endDate: values.endDate ? values.endDate.toISOString().split('T')[0] : null 
+        };
+          const response = await postJob(payload); // Call the postJob API
+          console.log('Response:', response);
+           const {_id}=response;
+          if (_id!==null) {
+            try{
+            const response = await sendEmail(_id);
+            if(response.message==="Emails sent successfully"){
+              alert('Job successfully posted!');
+            resetForm(); 
+            }
+            }catch(error){
+              console.error('Error:', error);
+              alert('Failed to send notification. Please try again.');
+            } 
+          }
+        } catch (error) {
+          console.error('Error:', error);
+          alert('Failed to post job. Please try again.');
+        }
       }}
     >
-      {({ values, errors, touched, handleChange, setFieldValue }) => (
-        <Form>
-          <Grid container spacing={3} style={{ maxWidth: 800, margin: '0 auto',marginLeft:"4rem",marginTop:"2rem" }}>
-            
+      {({ values, errors, touched, handleChange, setFieldValue, handleSubmit }) => (
+        <Form onSubmit={handleSubmit}>
+          <Grid container spacing={3} style={{ maxWidth: 800, margin: '0 auto', marginLeft: '4rem', marginTop: '2rem' }}>
+
             {/* Job Title */}
-            <Grid item xs={12} sx={{display:"flex"}}>
-                <label style={{marginLeft:"5.6rem",width:"8.9rem",fontFamily: "'DM Sans', sans-serif",fontSize:"17px",fontWeight:600,marginTop:"0.5rem",marginRight:"1rem"}}>Job Title</label>
+            <Grid item xs={12} sx={{ display: 'flex' }}>
+              <label style={{ marginLeft: '5.6rem', width: '8.9rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Job Title</label>
               <TextField
                 size='small'
                 fullWidth
@@ -55,8 +83,8 @@ const JobForm = () => {
             </Grid>
 
             {/* Job Description */}
-            <Grid item xs={12} sx={{display:'flex'}}>
-            <label style={{marginLeft:"2rem",width:"13.8rem",fontFamily: "'DM Sans', sans-serif",fontSize:"17px",fontWeight:600,marginTop:"0.5rem",marginRight:"1rem"}}>Job Description</label>
+            <Grid item xs={12} sx={{ display: 'flex' }}>
+              <label style={{ marginLeft: '2rem', width: '13.8rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Job Description</label>
               <TextField
                 fullWidth
                 label="Enter Job Description"
@@ -73,13 +101,11 @@ const JobForm = () => {
             </Grid>
 
             {/* Experience Level */}
-            <Grid item xs={12} sx={{display:'flex'}}>
-            <label style={{marginLeft:"2rem",width:"13.8rem",fontFamily: "'DM Sans', sans-serif",fontSize:"17px",fontWeight:600,marginTop:"0.5rem",marginRight:"1rem"}}>Experience Level</label>
-              <FormControl  size='small' fullWidth error={touched.experienceLevel && Boolean(errors.experienceLevel)}>
+            <Grid item xs={12} sx={{ display: 'flex' }}>
+              <label style={{ marginLeft: '2rem', width: '13.8rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Experience Level</label>
+              <FormControl size='small' fullWidth error={touched.experienceLevel && Boolean(errors.experienceLevel)}>
                 <InputLabel>Select Experience Level</InputLabel>
-               
                 <Select
-               
                   name="experienceLevel"
                   value={values.experienceLevel}
                   onChange={handleChange}
@@ -96,10 +122,10 @@ const JobForm = () => {
             </Grid>
 
             {/* Add Candidate */}
-            <Grid item xs={12} sx={{display:'flex'}}>
-            <label style={{marginLeft:"2.9rem",width:"12.6rem",fontFamily: "'DM Sans', sans-serif",fontSize:"17px",fontWeight:600,marginTop:"0.5rem",marginRight:"1rem"}}>Add Candidate</label>
+            <Grid item xs={12} sx={{ display: 'flex' }}>
+              <label style={{ marginLeft: '2.9rem', width: '12.6rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Add Candidate</label>
               <TextField
-              size='small'
+                size='small'
                 fullWidth
                 label="Add Candidate"
                 name="candidateEmail"
@@ -113,31 +139,28 @@ const JobForm = () => {
             </Grid>
 
             {/* End Date */}
-            <Grid item xs={12} sx={{display:'flex',marginTop:"-0.4rem"}}>
-            <label style={{marginLeft:"5.6rem",width:"10rem",fontFamily: "'DM Sans', sans-serif",fontSize:"17px",fontWeight:600,marginTop:"1rem",marginRight:"1rem"}}>End Date</label>
-              
-               <LocalizationProvider dateAdapter={AdapterDayjs} >
-      <DemoContainer    components={['DatePicker']}>
-        <DatePicker
-                sx={{width:"55rem"}}
-                formatDensity='spacious'
-                label="End Date"
-                value={values.endDate}
-                onChange={(newValue) => setFieldValue('endDate', newValue)}
-                renderInput={(params) => (
-                  <TextField
-                    
-                    fullWidth
-                    {...params}
-                    size="small"
-                    error={touched.endDate && Boolean(errors.endDate)}
-                    helperText={touched.endDate && errors.endDate}
+            <Grid item xs={12} sx={{ display: 'flex', marginTop: '-0.4rem' }}>
+              <label style={{ marginLeft: '5.6rem', width: '10rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '1rem', marginRight: '1rem' }}>End Date</label>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <DemoContainer components={['DatePicker']}>
+                  <DatePicker
+                    sx={{ width: '55rem' }}
+                    label="End Date"
+                    value={values.endDate}
+                    onChange={(newValue) => setFieldValue('endDate', newValue)}
+                    renderInput={(params) => (
+                      <TextField
+                        fullWidth
+                        {...params}
+                        size="small"
+                        error={touched.endDate && Boolean(errors.endDate)}
+                        helperText={touched.endDate && errors.endDate}
+                      />
+                    )}
+                    slotProps={{ textField: { size: 'small' } }}
                   />
-                )}
-                slotProps={{ textField: { size: 'small' } }}
-              />
-      </DemoContainer>
-    </LocalizationProvider>
+                </DemoContainer>
+              </LocalizationProvider>
             </Grid>
 
             {/* Send Button */}
