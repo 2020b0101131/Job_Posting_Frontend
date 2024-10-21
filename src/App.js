@@ -45,7 +45,6 @@ function AuthRedirect() {
   const vStatus=localStorage.getItem("vStatus") ||1;
   const flag=localStorage.getItem("flag")||0;
   const navigate = useNavigate();
-  console.log("flag::",flag,"vStatus::",vStatus);
   useEffect(() => {
     if (vStatus==flag && token) {
       navigate("/job-posting");
