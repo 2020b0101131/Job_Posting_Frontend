@@ -12,6 +12,7 @@ const ProfileDropdown = () => {
   const handleLogout = () => {
     localStorage.removeItem('name');
     localStorage.removeItem('token');
+    console.log("Token Cleared")
     navigate(`/`)
     console.log('Logged out');
   };

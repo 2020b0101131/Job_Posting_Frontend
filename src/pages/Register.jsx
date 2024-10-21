@@ -29,13 +29,13 @@ const RegisterForm = () => {
   const navigate = useNavigate();
   const [flag,setFlag]=useState(false); 
   return (
-    <>
-      <div style={{width:"25rem",marginTop:"13rem",marginLeft:"5rem",marginRight:"16rem"}}>
-        <p style={{fontFamily: "'DM Sans', sans-serif",fontSize:"14px",color:"#292929",textAlign:"justify",fontWeight:500}}>
+    <Box sx={{display:{md:"flex"},justifyContent:"space-between"}}>
+      
+        <Typography sx={{fontFamily: "'DM Sans', sans-serif",fontSize:"14px",color:"#292929",textAlign: { xs: "justify", md: "left" }, fontWeight:500, minWidth:"14rem",maxWidth:"28rem",mt:{md:25},mr:{md:32}}}>
           Lorem ipsum dolor sit amet consectetur, adipisicing elit. Rerum voluptatibus veniam tempore hic itaque, ab blanditiis! Dignissimos, repudiandae voluptas aut voluptate voluptatibus blanditiis a quia nihil aliquam suscipit nulla sint!
-        </p>
-      </div>
-    
+        </Typography>
+   
+    <Box>
       <Formik
         initialValues={{
           name: '',
@@ -79,14 +79,19 @@ const RegisterForm = () => {
           <Form style={{marginTop:"0.5rem"}} onSubmit={handleSubmit}>
             <Box
               sx={{
-                border: '1px solid lightgray',
+                border: '1px solid transparent', 
                 borderRadius: '15px',
-                padding: '30px',
-                width: '350px',
+                py: { xs: 4.5, sm: 4 },
+                mt: { xs: 2.5, sm: -0.4 },
+                px: { xs: 2, sm: 4 },
+                width: { md: '350px' },
                 margin: '0 auto',
                 boxShadow: '0 4px 8px rgba(0,0,0,0.1)',
-                height:"25.5rem",
+                height: "25.5rem",
+                background: 'linear-gradient(#fff, #fff) padding-box, linear-gradient(to bottom right, #3f71ff, #aa54ff) border-box', 
+                borderImageSlice: 1,
               }}
+              
             >
               <Typography variant="h5" sx={{ textAlign: 'center', marginBottom: '10px', fontWeight: 600, marginTop:"-1rem" }}>
                 Sign Up
@@ -263,7 +268,8 @@ const RegisterForm = () => {
           </Form>
         )}
       </Formik>
-    </>
+      </Box>
+    </Box>
   );
 };
 

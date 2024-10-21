@@ -9,12 +9,12 @@ import CancelIcon from "@mui/icons-material/Cancel";
 import InputAdornment from "@mui/material/InputAdornment";
 import { useNavigate } from "react-router-dom";
 import { verifyEmail } from "../services/service"; 
+import { useSelector, useDispatch } from 'react-redux';
+import { setVStatus } from '../redux/actions/vStatusActions';
 
 
 const validationSchema = Yup.object({
-  // companyEmail: Yup.string()
-  //   .email("Invalid email format")
-  //   .required("Email OTP is required"),
+  companyEmail: Yup.string().required("Email OTP is required"),
   // phoneNumber: Yup.string() // Kept for later use
   //   .matches(/^[0-9]+$/, "Must be only digits")
   //   .min(6, "Must be exactly 6 digits")
@@ -24,6 +24,9 @@ const validationSchema = Yup.object({
 const Verification = () => {
   const navigate = useNavigate();
   const [verificationStatus, setVerificationStatus] = useState(null);
+  const vStatus = useSelector((state) => state.vStatus);
+  const dispatch = useDispatch(); 
+  
  
 
   const handleVerification = async (values) => {
@@ -37,6 +40,11 @@ const Verification = () => {
 
       if (response.message === "Email verified successfully!") {
         setVerificationStatus("success");
+        const randomVStatus = Math.floor(Math.random() * 1000); 
+        dispatch(setVStatus(randomVStatus));
+
+        localStorage.setItem("vStatus", randomVStatus);
+        localStorage.setItem("flag", randomVStatus);
         navigate("/job-posting"); 
       } else {
         setVerificationStatus("failure");
@@ -62,13 +70,15 @@ const Verification = () => {
           <Form onSubmit={handleSubmit} style={{ marginTop: "3.8rem" }}>
             <Box
               sx={{
-                border: "1px solid lightgray",
+                border: "1px solid transparent",
                 borderRadius: "15px",
                 padding: "30px",
-                width: "350px",
+                width: {sm:"350px"},
                 margin: "0 auto",
                 boxShadow: "0 4px 8px rgba(0,0,0,0.1)",
                 height: "18.5rem",
+                background: 'linear-gradient(#fff, #fff) padding-box, linear-gradient(to bottom right, #3f71ff, #aa54ff) border-box', 
+                borderImageSlice: 1,
               }}
             >
               <Typography
@@ -151,7 +161,7 @@ const Verification = () => {
                 Verify Email
               </Button>
 
-              {/* Phone OTP Field - kept but not functional */}
+             
               <Grid container alignItems="center" sx={{ marginBottom: "15px" }}>
                 <Grid item xs>
                   <TextField

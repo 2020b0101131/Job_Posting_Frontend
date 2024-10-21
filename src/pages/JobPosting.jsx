@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, TextField, Grid, MenuItem, Select, InputLabel, FormControl, Chip, Box, Autocomplete } from '@mui/material';
+import { Button, TextField, Grid, MenuItem, Select, InputLabel, FormControl, Chip, Box, Autocomplete, Typography } from '@mui/material';
 import '@fontsource/dm-sans';
 import { DemoContainer } from '@mui/x-date-pickers/internals/demo';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
@@ -7,7 +7,7 @@ import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import { Formik, Form } from 'formik';
 import * as Yup from 'yup';
-import { postJob, sendEmail } from '../services/service'; // Import the API
+import { postJob, sendEmail } from '../services/service'; 
 import CircularProgress from '@mui/material/CircularProgress';
 const validationSchema = Yup.object({
   jobTitle: Yup.string().required('Job Title is required'),
@@ -18,10 +18,10 @@ const validationSchema = Yup.object({
 });
 
 const JobForm = () => {
-  const [candidateEmailInput, setCandidateEmailInput] = useState('');
   const [flag,setFlag]=useState(false); 
 
   return (
+    <Box sx={{ml:{xs:-4}}}>
     <Formik
       initialValues={{
         jobTitle: '',
@@ -65,11 +65,14 @@ const JobForm = () => {
     >
       {({ values, errors, touched, handleChange, setFieldValue, handleSubmit }) => (
         <Form onSubmit={handleSubmit}>
-          <Grid container spacing={3} style={{ maxWidth: 800, margin: '0 auto', marginLeft: '4rem', marginTop: '2rem' }}>
+          <Grid container spacing={3} sx={{  margin: '0 auto', ml: {sm:'4rem'}, mt: {sm:'2rem'} }}>
 
            
-            <Grid item xs={12} sx={{ display: 'flex' }}>
-              <label style={{ marginLeft: '5.6rem', width: '8.9rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Job Title</label>
+            <Grid item xs={12} sx={{ display: {sm:'flex'} }}>
+              <Grid xs={4} sm={1.6} >
+              <Typography sx={{fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem',ml:{sm:7.2 }}}>Job Title</Typography>
+              </Grid>
+              <Grid xs={11} sm={5.5}>
               <TextField
                 size='small'
                 fullWidth
@@ -82,11 +85,15 @@ const JobForm = () => {
                 helperText={touched.jobTitle && errors.jobTitle}
                 placeholder="Enter Job Title"
               />
+              </Grid>
             </Grid>
 
          
-            <Grid item xs={12} sx={{ display: 'flex' }}>
-              <label style={{ marginLeft: '2rem', width: '13.8rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Job Description</label>
+            <Grid item xs={12} sx={{ display: {sm:'flex'} }}>
+              <Grid xs={6} sm={1.6}>
+              <Typography sx={{fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, }}>Job Description</Typography>
+              </Grid>
+              <Grid xs={11} sm={5.5}>
               <TextField
                 fullWidth
                 label="Enter Job Description"
@@ -100,11 +107,15 @@ const JobForm = () => {
                 helperText={touched.jobDescription && errors.jobDescription}
                 placeholder="Enter Job Description"
               />
+              </Grid>
             </Grid>
 
           
-            <Grid item xs={12} sx={{ display: 'flex' }}>
-              <label style={{ marginLeft: '2rem', width: '13.8rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Experience Level</label>
+            <Grid item xs={12} sx={{ display: {sm:'flex'} }}>
+              <Grid xs={7} sm={1.6}>
+              <Typography sx={{ fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600,ml:{sm:-1}}}>Experience Level</Typography>
+              </Grid>
+              <Grid xs={11} sm={5.5}>
               <FormControl size='small' fullWidth error={touched.experienceLevel && Boolean(errors.experienceLevel)}>
                 <InputLabel>Select Experience Level</InputLabel>
                 <Select
@@ -121,13 +132,16 @@ const JobForm = () => {
                   <div style={{ color: 'red', fontSize: '0.75rem' }}>{errors.experienceLevel}</div>
                 )}
               </FormControl>
+              </Grid>
             </Grid>
 
           
-            <Grid item xs={12} sx={{ display: 'flex' }}>
-              <label style={{ marginLeft: '2.9rem', width: '12.6rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '0.5rem', marginRight: '1rem' }}>Add Candidate</label>
+            <Grid item xs={12} sx={{ display: {sm:'flex'} }}>
+              <Grid xs={6} sm={1.6}>
+              <Typography sx={{  fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600,ml:{sm:1} }}>Add Candidate</Typography>
+              </Grid>
+              <Grid xs={11} sm={5.5}>
               <Autocomplete
-                sx={{minWidth:"35.4rem"}}
                 multiple
                 freeSolo
                 options={[]}
@@ -154,15 +168,19 @@ const JobForm = () => {
                   />
                 )}
               />
+              </Grid>
             </Grid>
 
          
-            <Grid item xs={12} sx={{ display: 'flex', marginTop: '-0.4rem' }}>
-              <label style={{ marginLeft: '5.6rem', width: '10rem', fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600, marginTop: '1rem', marginRight: '1rem' }}>End Date</label>
+            <Grid item xs={12} sx={{ display: {sm:'flex'}, marginTop: '-0.4rem' }}>
+              <Grid xs={6} sm={1.6}>
+              <Typography sx={{ fontFamily: "'DM Sans', sans-serif", fontSize: '17px', fontWeight: 600,mt:1,ml:{sm:6.5} }}>End Date</Typography>
+              </Grid>
+              <Grid xs={11} sm={5.5}>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DemoContainer components={['DatePicker']}>
                   <DatePicker
-                    sx={{ width: '55rem' }}
+                   sx={{ width: {md:'55rem'} }}
                     label="End Date"
                     value={values.endDate}
                     onChange={(newValue) => setFieldValue('endDate', newValue)}
@@ -179,10 +197,11 @@ const JobForm = () => {
                   />
                 </DemoContainer>
               </LocalizationProvider>
+              </Grid>
             </Grid>
 
           
-            <Grid item xs={12} style={{ textAlign: 'right',display:'flex',justifyContent:"flex-end" }}>
+            <Grid item sm={7.2} sx={{textAlign:"right",display:'flex',justifyContent:"flex-end" }}>
             {flag===true?<CircularProgress size={30} sx={{mr:2}}/>:null}
               <Button type="submit" variant="contained" color="primary" style={{ width: '100px' }} >
               
@@ -193,6 +212,7 @@ const JobForm = () => {
         </Form>
       )}
     </Formik>
+    </Box>
   );
 };
 

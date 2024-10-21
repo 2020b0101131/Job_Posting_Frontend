@@ -27,7 +27,7 @@ const Sidebar = () => {
   return (
     <div style={sidebarStyle}>
       <span style={iconStyle} role="img" aria-label="home" onClick={handleHomeClick}>
-        <HomeIcon style={{ fontSize: '30px', color: '#4A5568', marginBottom: '25rem', cursor: 'pointer' }} />
+        <HomeIcon sx={{ fontSize: '30px', color: '#4A5568', mb:{xs:70,sm:55}, cursor: 'pointer' }} />
       </span>
     </div>
   );
