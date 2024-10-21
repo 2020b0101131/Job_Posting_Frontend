@@ -28,8 +28,7 @@ const validationSchema = Yup.object({
 const RegisterForm = () => {
   const navigate = useNavigate();
   const [flag,setFlag]=useState(false); 
-  localStorage.removeItem('flag');
-  localStorage.removeItem('vStatus');
+  
   return (
     <Box sx={{display:{md:"flex"},justifyContent:"space-between"}}>
       

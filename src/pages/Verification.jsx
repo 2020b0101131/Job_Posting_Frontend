@@ -22,9 +22,11 @@ const validationSchema = Yup.object({
 });
 
 const Verification = () => {
+  localStorage.removeItem('flag');
+  localStorage.removeItem('vStatus');
   const navigate = useNavigate();
   const [verificationStatus, setVerificationStatus] = useState(null);
-  const vStatus = useSelector((state) => state.vStatus);
+  // const vStatus = useSelector((state) => state.vStatus);
   const dispatch = useDispatch(); 
   
  
