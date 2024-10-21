@@ -42,10 +42,10 @@ function AppLayout({ children }) {
 function AuthRedirect() {
   const token = localStorage.getItem("token");
   // const rvStatus = useSelector((state) => state.vStatus);
-  const vStatus=localStorage.getItem("vStatus");
-  const flag=localStorage.getItem("flag");
+  const vStatus=localStorage.getItem("vStatus") ||1;
+  const flag=localStorage.getItem("flag")||0;
   const navigate = useNavigate();
-
+  console.log("flag::",flag,"vStatus::",vStatus);
   useEffect(() => {
     if (vStatus==flag && token) {
       navigate("/job-posting");
